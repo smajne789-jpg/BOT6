@@ -31,7 +31,7 @@ TOKEN = os.getenv("BOT_TOKEN")
 ADMIN_ID = int(os.getenv("ADMIN_ID"))
 BOT_USERNAME = os.getenv("BOT_USERNAME")
 MIN_WITHDRAW = 1
-MAX_WITHDRAW = 500
+MAX_WITHDRAW = 67
 
 bot = Bot(
     token=TOKEN,
@@ -156,7 +156,7 @@ def main_menu():
     kb = InlineKeyboardBuilder()
 
     kb.row(
-        InlineKeyboardButton(text="рџ‘¤ РџСЂРѕС„РёР»СЊ", callback_data="👤 ПРОФИЛЬ")
+        InlineKeyboardButton(text="👤 Профиль", callback_data="profile")
     )
 
     return kb.as_markup()
@@ -295,7 +295,7 @@ async def withdraw_amount(message: Message, state: FSMContext):
     await state.set_state(WithdrawState.link)
 
     await message.answer(
-        "🔗 Пришли ссылку на пополнение CryptoBot бесконечную!"
+        "🔗 Пришли ссылку на пополнение CryptoBot"
     )
 
 
