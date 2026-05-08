@@ -30,8 +30,8 @@ load_dotenv()
 TOKEN = os.getenv("BOT_TOKEN")
 ADMIN_ID = int(os.getenv("ADMIN_ID"))
 BOT_USERNAME = os.getenv("BOT_USERNAME")
-MIN_WITHDRAW = 100
-MAX_WITHDRAW = 50000
+MIN_WITHDRAW = 0.5
+MAX_WITHDRAW = 500
 
 bot = Bot(
     token=TOKEN,
@@ -154,10 +154,6 @@ def profile_text(user_id, username):
 
 def main_menu():
     kb = InlineKeyboardBuilder()
-
-    kb.row(
-        InlineKeyboardButton(text="👤 Профиль", callback_data="profile")
-    )
 
     kb.row(
         InlineKeyboardButton(text="💸 Вывести", callback_data="withdraw")
