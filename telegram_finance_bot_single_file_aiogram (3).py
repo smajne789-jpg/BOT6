@@ -159,6 +159,10 @@ def main_menu():
         InlineKeyboardButton(text="👤 Профиль", callback_data="profile")
     )
 
+    kb.row(
+        InlineKeyboardButton(text="💸 Вывести", callback_data="withdraw")
+    )
+
     return kb.as_markup()
 
 
