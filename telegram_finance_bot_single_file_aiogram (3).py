@@ -322,6 +322,21 @@ async def withdraw_link(message: Message, state: FSMContext):
 
     conn.commit()
 
+    withdraw_kb = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(
+                    text="✅ Подтвердить",
+                    callback_data=f"accept_withdraw_{message.from_user.id}_{amount}"
+                ),
+                InlineKeyboardButton(
+                    text="❌ Отменить",
+                    callback_data=f"cancel_withdraw_{message.from_user.id}_{amount}"
+                ),
+            ]
+        ]
+    )
+
     await bot.send_message(
         ADMIN_ID,
         f"""
@@ -333,6 +348,7 @@ async def withdraw_link(message: Message, state: FSMContext):
 💰 Сумма: <b>{amount} $</b>
 🔗 Ссылка: {link}
 """,
+        reply_markup=withdraw_kb,
     )
 
     await message.answer(
@@ -341,6 +357,66 @@ async def withdraw_link(message: Message, state: FSMContext):
     )
 
     await state.clear()
+
+
+# =========================
+# ПОДТВЕРЖДЕНИЕ / ОТМЕНА ВЫВОДА
+# =========================
+@dp.callback_query(F.data.startswith("accept_withdraw_"))
+async def accept_withdraw(call: CallbackQuery):
+    if call.from_user.id != ADMIN_ID:
+        return
+
+    data = call.data.split("_")
+
+    user_id = int(data[2])
+    amount = int(data[3])
+
+    cur.execute(
+        "UPDATE users SET balance = balance - ? WHERE user_id=?",
+        (amount, user_id),
+    )
+
+    conn.commit()
+
+    try:
+        await bot.send_message(
+            user_id,
+            f"✅ Твой вывод на сумму <b>{amount} $</b> подтвержден"
+        )
+    except:
+        pass
+
+    await call.message.edit_text(
+        call.message.text + "
+
+✅ ВЫВОД ПОДТВЕРЖДЕН"
+    )
+
+
+@dp.callback_query(F.data.startswith("cancel_withdraw_"))
+async def cancel_withdraw(call: CallbackQuery):
+    if call.from_user.id != ADMIN_ID:
+        return
+
+    data = call.data.split("_")
+
+    user_id = int(data[2])
+    amount = int(data[3])
+
+    try:
+        await bot.send_message(
+            user_id,
+            f"❌ Вывод на сумму <b>{amount} $</b> отменен"
+        )
+    except:
+        pass
+
+    await call.message.edit_text(
+        call.message.text + "
+
+❌ ВЫВОД ОТМЕНЕН"
+    )
 
 
 # =========================
