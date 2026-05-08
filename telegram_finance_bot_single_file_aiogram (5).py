@@ -30,8 +30,8 @@ load_dotenv()
 TOKEN = os.getenv("BOT_TOKEN")
 ADMIN_ID = int(os.getenv("ADMIN_ID"))
 BOT_USERNAME = os.getenv("BOT_USERNAME")
-MIN_WITHDRAW = 100
-MAX_WITHDRAW = 50000
+MIN_WITHDRAW = 1
+MAX_WITHDRAW = 50
 
 bot = Bot(
     token=TOKEN,
