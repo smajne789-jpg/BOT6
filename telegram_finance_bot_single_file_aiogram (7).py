@@ -390,13 +390,13 @@ async def roulette_bet(message: Message, state: FSMContext):
     await state.set_state(RouletteState.number)
 
     await message.answer(
-        "🎯 Введи число или диапазон:
+        """🎯 Введи число или диапазон:
 
 1-12
 13-25
 26-32
 или число 1-32"
-    )
+)
 
 
 @dp.message(RouletteState.number)
