@@ -30,8 +30,8 @@ load_dotenv()
 TOKEN = os.getenv("BOT_TOKEN")
 ADMIN_ID = int(os.getenv("ADMIN_ID"))
 BOT_USERNAME = os.getenv("BOT_USERNAME")
-MIN_WITHDRAW = 100
-MAX_WITHDRAW = 50000
+MIN_WITHDRAW = 0.1
+MAX_WITHDRAW = 50
 
 bot = Bot(
     token=TOKEN,
@@ -148,7 +148,7 @@ def profile_text(user_id, username):
 👤 Username: @{username if username else 'нет'}
 💰 Баланс: <b>{balance} $</b>
 
-✨ Добро пожаловать в систему выплат
+✨ ВАЖНО! КОГДА МЫ СМОЖЕМ ВЫПЛАТИТЬ МЫ СДЕЛАЕМ РАССЫЛКУ
 """
 
 
@@ -299,7 +299,7 @@ async def withdraw_amount(message: Message, state: FSMContext):
     await state.set_state(WithdrawState.link)
 
     await message.answer(
-        "🔗 Пришли ссылку на пополнение CryptoBot"
+        "🔗 Пришли ссылку на пополнение @BOR_CASINO_BOT"
     )
 
 
