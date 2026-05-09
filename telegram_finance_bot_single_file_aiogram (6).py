@@ -335,12 +335,13 @@ async def deposit_amount(message: Message, state: FSMContext):
     await message.answer(text, reply_markup=main_menu())
 
     await bot.send_message(
-        ADMIN_ID,
-        f"💳 Новый запрос на пополнение
+    ADMIN_ID,
+    f"""💳 Новый запрос на пополнение
 
 👤 ID: <code>{message.from_user.id}</code>
-💵 Сумма: <b>{amount} $</b>"
-    )
+💵 Сумма: <b>{amount} $</b>
+"""
+)
 
     await state.clear()
 
